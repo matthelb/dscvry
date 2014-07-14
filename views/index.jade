@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  if user
+    h1 Welcome #{user.display_name}
+    img(width="150", title="#{user.display_name}" src="#{user.images[0].url}")
+    dl
+      dt ID
+      dd #{user.id}
+      dt Email
+      dd #{user.email}
+      dt Spotify URI
+      dd: a(href="#{user.href}") #{user.href}
+    ul
+      each pl in playlists
+        - var pl_id = pl.id ? pl.id : "starred"
+        li: a(href="/generate?playlist_id=#{pl_id}&user_id=#{user.id}") #{pl.name}
+    if tracks
+      iframe(src="https://embed.spotify.com/?uri=spotify:trackset:#{tracks}", width="300", height="380", frameborder="0", allowtransparency="true")
+  else
+    a(href="/login") Login to Spotify
