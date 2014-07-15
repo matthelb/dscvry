@@ -1,8 +1,56 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+html, body {
+  height: 100%;
 }
 
-a {
-  color: #00B7FF;
+body {
+  margin: 0;
+}
+
+.clear {
+  clear: both;
+}
+
+#login {
+  background-image: url("../images/log_in-desktop.svg");
+  width: 270px;
+  height: 50px;
+}
+
+#content {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#sidebar {
+  flex-basis: 1;
+}
+
+#user {
+
+}
+
+#user .header {
+  height: 100px;
+  background-color: #84BD00;
+}
+
+#user .info img {
+  display: block;
+  margin: -35px 0 0 10px;
+  border: 2px solid #FFF;
+  float: left;
+}
+
+#user .info .name {
+  float: left;
+}
+
+#playlists {
+
+}
+
+#embed {
+  flex-basis: 2;
 }
