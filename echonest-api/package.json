@@ -1,0 +1,17 @@
+{
+  "name": "echonest-api",
+  "version": "0.0.1",
+  "homepage": "https://github.com/mburke13/echonest-api",
+  "description": "A Node.js wrapper for The Echonest API",
+  "main": "index.js",
+  "author": {
+    "name": "Matthew Burke"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "restler": "~3.2.0",
+    "promise": "~5.0.0",
+    "request": "*",
+    "querystring": "~0.2.0"
+  }
+}

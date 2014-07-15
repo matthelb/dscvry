@@ -18,4 +18,5 @@ block content
     if tracks
       iframe(src="https://embed.spotify.com/?uri=spotify:trackset:#{tracks}", width="300", height="380", frameborder="0", allowtransparency="true")
   else
-    a(href="/login") Login to Spotify
+    div#splash
+      a#login(href="/login")
