@@ -1,6 +1,7 @@
 var config = require('./config.json');
 
 var express = require('express');
+var sass = require('node-sass');
 var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
@@ -21,7 +22,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
-app.use(session({secret: config.SESSION_SECRET}));
+app.use(session({secret: config.SESSION_SECRET, httpOnly: false}));
+app.use(sass.middleware({
+    src: path.join(__dirname, 'public/sass') ,
+    dest: path.join(__dirname, 'public'),
+    debug: true
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(spotifySession(config.spotify));
@@ -30,6 +36,8 @@ app.use('/', routes);
 app.use('/login', routes);
 app.use('/callback', routes);
 app.use('/generate', routes);
+app.use('/status', routes);
+app.use('/playlist', routes);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

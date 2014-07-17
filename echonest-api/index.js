@@ -12,15 +12,20 @@ function EchonestApi(api_key) {
     var options = {
       url: url,
     };
+    var req;
     if (method == 'get') {
       options.url += '?' + querystring.stringify(data);
-      return request.get(options, callback);
+      req = request.get;
     } else if (method == 'post') {
       options.form = data;
-      return request.post(options, callback);
+      req = request.post;
     } else {
       throw 'Unknown method: ' + method;
     }
+    req(options, function(error, response, data) {
+      var json = JSON.parse(data);
+      callback(json);
+    });
   };
 }
 

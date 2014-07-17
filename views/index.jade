@@ -1,26 +1,27 @@
 extends layout
 
 block content
-  if user
-    div#content
-      div#sidebar
-        div#user
-          div.header
-          div.info
-            img(height="80", title="#{user.display_name}" src="#{user.images[0].url}")
-            div.name
-              p #{user.display_name}
-            div.clear
-        div#playlists
-          ul
-            each pl in playlists
-              - var pl_id = pl.id ? pl.id : "starred"
-              li: a(href="/generate?playlist_id=#{pl_id}&user_id=#{user.id}") #{pl.name}
-      div#embed
-        if tracks
-          iframe(src="https://embed.spotify.com/?theme=white&uri=spotify:trackset:#{tracks}", width="300", height="380", frameborder="0", allowtransparency="true")
-        else
-          p "No playlist currently selected."
-  else
-    div#splash
-      a#login(href="/login")
+  div#content(ng-controller="DscvryController")
+    div#sidebar(ng-if="access_token != ''")
+      div#user
+        div.header
+        div.info
+          img(height="80", ng-title="{{ user.display_name }}" ng-src="{{ user.images[0].url }}")
+          div.name
+            p {{ user.display_name }}
+          div.logout
+          div.clear
+      div#playlists
+        ul
+          li(ng-repeat="pl in playlists" ng-click="select_playlist(pl)")
+            div(class="playlist")
+              span(class="title") {{ pl.name }}
+              br
+              span(class="info") {{ pl.tracks.total }} tracks
+    div#embed(ng-if="access_token != ''")
+      iframe(ng-if="spotify_embed_url != ''" ng-src="{{ spotify_embed_url }}", width="300", height="380", frameborder="0", allowtransparency="true")
+      p(ng-if="catalog_id == ''") No playlist currently selected.
+      div(ng-if="catalog_id != '' && spotify_embed_url == ''")
+        div.loading
+        p {{ loading_phrase }}
+    a#login(href="/login", ng-if="access_token == ''")

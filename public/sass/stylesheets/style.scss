@@ -1,0 +1,107 @@
+$spotify-green: #84BD00;
+
+html, body {
+  height: 100%;
+  font-family: "lucida grande", tahoma, Verdana, Arial;
+  color: #4a4a4a;
+}
+
+body {
+  margin: 0;
+}
+
+.clear {
+  clear: both;
+}
+
+.loading {
+  background-image: url("../../images/loading.gif");
+  width: 120px;
+  height: 128px;
+}
+
+#login {
+  background-image: url("../../images/log_in-desktop.svg");
+  width: 270px;
+  height: 50px;
+}
+
+#content {
+  height: 100%;
+  width: 66%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#sidebar {
+  flex-basis: 1;
+  width: 33%;
+  height: 100%;
+}
+
+#user {
+  .header {
+    height: 100px;
+    background-color: $spotify-green;
+  }
+  .info {
+    img {
+      display: block;
+      margin: -35px 0 0 10px;
+      border: 2px solid #FFF;
+      float: left;
+    }
+    .name {
+      float: left;
+      padding-left: 8px;
+    }
+    .logout {
+      float: right;
+    }
+  }
+} 
+
+#playlists {
+  overflow-y: scroll;
+  height: 66%;
+  border: 1px solid #D1D1D1;
+  ul {
+    list-style: none;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    li {
+      .playlist {
+        padding: 4px 8px;
+        background-color: #F9F9F7;
+        border-width: 1px 0;
+        border-style: solid;
+        border-color: #FCFCFB #FFF #EBEBEB #FFF;
+        font-size: 11px;
+        letter-spacing: 0.019em;
+        .title {
+          font-weight: 700;
+        }
+        .info {
+          color: #838383;
+        }
+        &:hover {
+          cursor: pointer;
+          background-color: #FFF;
+          transition-duration: 0.1s;
+          transition-property: background-color;
+        }
+      }
+    }
+  }
+}
+
+#embed {
+  flex-basis: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 66%;
+}
