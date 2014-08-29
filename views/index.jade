@@ -10,6 +10,7 @@ block content
           div.name
             p {{ user.display_name }}
           div.logout
+            a(href="/logout")
           div.clear
       div#playlists
         ul
@@ -19,9 +20,9 @@ block content
               br
               span(class="info") {{ pl.tracks.total }} tracks
     div#embed(ng-if="access_token != ''")
-      iframe(ng-if="spotify_embed_url != ''" ng-src="{{ spotify_embed_url }}", width="300", height="380", frameborder="0", allowtransparency="true")
-      p(ng-if="catalog_id == ''") No playlist currently selected.
-      div(ng-if="catalog_id != '' && spotify_embed_url == ''")
+      iframe(ng-if="spotify_embed_url != ''" ng-src="{{ spotify_embed_url }}", width="{{ embed_width }}", height="{{ embed_height }}", frameborder="0", allowtransparency="true")
+      p(ng-if="playlist == '' && spotify_embed_url == ''") No playlist currently selected.
+      div(ng-if="playlist != '' && spotify_embed_url == ''")
         div.loading
         p {{ loading_phrase }}
     a#login(href="/login", ng-if="access_token == ''")

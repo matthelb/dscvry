@@ -1,6 +1,6 @@
 var app = angular.module('dscvry', ['ngCookies', 'ngRoute']);
 
-var loading_phrases = ['Reticulating splines', 'Crunching numbers', 'Consulting monkeys'];
+var loading_phrases = ['Reticulating splines', 'Crunching numbers', 'Consulting monkeys', 'Generating Gene Pools', 'Crossing t\'s', 'Checkering flags', 'Unreticulating splines', 'Re-reticulating splines'];
 
 app.controller('DscvryController', function($scope, $cookies, $cookieStore, $route, $location, $http, $sce) {  
   $scope.reset = function() {
@@ -30,9 +30,27 @@ app.controller('DscvryController', function($scope, $cookies, $cookieStore, $rou
       }).
       error(function(data, status) {
         if (status == 401) {
-          $location.path('/login');
+          window.location.href = '/login';
         }
       });
+  }
+
+  $scope.set_embed_url = function(trackset) {
+    $scope.spotify_embed_url = $sce.trustAsResourceUrl('https://embed.spotify.com/?theme=white&uri=spotify:trackset:' + trackset);
+    var elem = document.getElementById('embed');
+    var width = Math.min(640, elem ? angular.element(elem)[0].offsetWidth : window.innerWidth * 4 / 9);
+    var height = Math.min(720, elem ? angular.element(elem)[0].offsetHeight : window.innerHeight)
+    $scope.embed_height = height;
+    $scope.embed_width = width;
+  }
+
+  $scope.set_loading_phrase = function() {
+    $scope.loading_phrase = loading_phrases[Math.floor(Math.random()*loading_phrases.length)];
+  }
+
+  var trackset = $location.search()['trackset'];
+  if (trackset) {
+    $scope.set_embed_url(trackset);
   }
 
   $scope.check_ticket = function() {
@@ -59,7 +77,8 @@ app.controller('DscvryController', function($scope, $cookies, $cookieStore, $rou
     return $http.get('/playlist', { params: { catalog_id: catalog_id } }).
       success(function(data) {
         var trackset = data.tracks.filter(function(t){ return t.length > 0 }).join(',');
-        $scope.spotify_embed_url = $sce.trustAsResourceUrl('https://embed.spotify.com/?theme=white&uri=spotify:trackset:' + trackset);
+        $scope.set_embed_url(trackset);
+        $location.search('trackset', trackset);
       });
   }
 
@@ -77,8 +96,9 @@ app.controller('DscvryController', function($scope, $cookies, $cookieStore, $rou
     $scope.spotify_embed_url = '';
     $scope.ticket_processed = false;
     $scope.playlist = playlist;
+    $scope.set_loading_phrase();
     var check_until_processed = function() {
-      $scope.loading_phrase = loading_phrases[Math.floor(Math.random()*loading_phrases.length)];
+      $scope.set_loading_phrase();
       var start = Date.now();
       $scope.check_ticket().then(function() {
         if (!$scope.ticket_processed) {
@@ -89,4 +109,8 @@ app.controller('DscvryController', function($scope, $cookies, $cookieStore, $rou
     };
     $scope.generate_catalog(playlist.id, playlist.owner.id).then(check_until_processed);
   }
+}).config(function($routeProvider) {
+  $routeProvider.when('/', {
+    reloadOnSearch: false
+  });
 });

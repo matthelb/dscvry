@@ -27,6 +27,11 @@ router.get('/', function(req, res) {
   res.render('index');
 });
 
+router.get('/logout', function(req, res) {
+  req.session = null;
+  res.redirect('/');
+});
+
 router.get('/login', function(req, res) {
   var state = generateRandomString(16);
   res.cookie(stateKey, state);
@@ -46,7 +51,6 @@ router.get('/callback', function(req, res) {
 
 router.get('/status', function(req, res) {
   var ticket = req.query.ticket;
-  console.log(ticket);
   echonest.request('tasteprofile/status', 'get', { ticket: ticket }, function(data) {
     res.json({
       status: data.response.ticket_status,
@@ -76,27 +80,48 @@ router.get('/playlist', function(req, res) {
   });
 });
 
+function addTracksToProfile(catalog_id, tracks, next) {
+  echonest.request('tasteprofile/update', 'post', {
+    id: catalog_id,
+    data_type: 'json',
+    data: JSON.stringify(tracks)
+  }, function(data2) {
+    next(data2.response.ticket);
+  });
+}
+
+function retrieveTracks(swa, user_id, playlist_id, options, next) {
+  swa.getPlaylistTracks(user_id, playlist_id, options).then(function(data) {
+    next(data.next, data.items.map(function(song) { return { item: { track_id: song.track.uri } } }));
+  });
+}
+
 router.get('/generate', function(req, res) {
-  req.swa.getPlaylistTracks(req.query.user_id, req.query.playlist_id).then(function(data0) {
-    var playlist = data0.items;
-    echonest.request('tasteprofile/create', 'post', {
+  echonest.request('tasteprofile/create', 'post', {
       name: generateRandomString(32),
       type: 'song' 
-    }, function(data1) {
-      var track_data = playlist.map(function(song) { return { item: { track_id: song.track.uri } } });
-      var catalog_id = data1.response.id;  
-      echonest.request('tasteprofile/update', 'post', {
-        id: catalog_id,
-        data_type: 'json',
-        data: JSON.stringify(track_data)
-      }, function(data2) {
-        res.json({
-          ticket: data2.response.ticket,
-          catalog_id: catalog_id
-        });
-      });
+    }, function(data) {
+      var catalog_id = data.response.id;
+      var retrieveUntilFinished = function(offset) {
+        retrieveTracks(req.swa, req.query.user_id, req.query.playlist_id, {limit: 100, offset: offset}, 
+          function(next_url, tracks) {
+            addTracksToProfile(catalog_id, tracks, 
+              function(ticket) {
+                if (next_url) {
+                  retrieveUntilFinished(offset + 100);
+                } else {
+                  res.json({
+                    ticket: ticket,
+                    catalog_id: catalog_id
+                  })
+                }
+              }
+            );
+          }
+        );
+      };
+      retrieveUntilFinished(0);
     });
-  });
 });
 
 module.exports = router;
