@@ -1,109 +1,374 @@
-$spotify-green: #84BD00;
+/*
+ * Web Starter Kit
+ *
+ * Multi-screen layout styles for your page. Brought to you by the
+ * Web Starter Kit team.
+ *
+ */
+@import url(http://fonts.googleapis.com/css?family=Oxygen:400,300,700);
 
-html, body {
+@import '_h5bp';
+
+/*
+ * Visual Style Guide styles
+ * Remove if you prefer to use a CSS library, like Bootstrap
+ */
+@import 'components/components';
+
+html,
+body {
+  width: 100%;
   height: 100%;
-  font-family: "lucida grande", tahoma, Verdana, Arial;
-  color: #4a4a4a;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
+  position: relative;
+  font-family: "Oxygen" !important;
+  color: #4a4a4a;
+  background-color: #fff;
+  box-sizing: border-box;
+  min-height: 100%;
 }
 
-.clear {
-  clear: both;
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body.open {
+  overflow: hidden;
+}
+
+.app-bar {
+  display: block;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: $spotifyGreen;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.app-bar-container {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  height: 60px;
+  position: relative;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  margin: 0 auto;
+}
+
+.app-bar.open,
+.app-bar.open ~ main {
+  -webkit-transform: translate(250px, 0);
+          transform: translate(250px, 0);
+}
+
+.app-bar .logo {
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  font-size: 2em;
+  line-height: 60px;
+  margin: 0 16px;
+  padding: 0;
+  color: #fefefe;
+  float: none;
+  max-width: none;
+  font-weight: 300;
+  display: initial;
+}
+
+.app-bar .logo a {
+  text-decoration: none;
+  color: inherit;
+  font-weight: normal;
+}
+
+.app-bar-actions {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  z-index: 2;
+}
+
+.app-bar button {
+  width: 60px;
+  height: 60px;
+  background-image: none;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  display: inline-block;
+  -webkit-transition: background-color 0.2s ease-out;
+          transition: background-color 0.2s ease-out;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app-bar button img {
+  height: 24px;
+  width: 24px;
+}
+
+.app-bar button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.app-bar button:focus {
+  background-color: rgba(255, 255, 255, 0.2);
+  outline: 0;
+}
+
+.app-bar button:active {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.promote-layer {
+  /*
+  This may promote the layer to a composited
+  layer.
+
+  Replace with will-change when available
+
+  #perfmatters
+  */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.base,
+p,
+ul,
+ol {
+  font-size: 19px;
+}
+
+.navdrawer-container {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 250px;
+  height: 100%;
+  background-color: $spotifyGreen;
+  -webkit-transform: translate(-250px, 0);
+          transform: translate(-250px, 0);
+  overflow-y: auto;
+  border-right: 1px solid #FFF;
+}
+
+.navdrawer-container.open {
+  -webkit-transform: translate(0, 0);
+          transform: translate(0, 0);
+}
+
+.app-bar,
+.navdrawer-container.opened,
+main {
+  -webkit-transition: -webkit-transform 0.3s ease-out;
+          transition: transform 0.3s ease-out;
+}
+
+.navdrawer-container .profile-img {
+  float: left;
+}
+
+.navdrawer-container .name {
+  float: left;
+  width: 173px;
+  text-align: center;
+  h4 {
+    color: #FFF;
+  }
+}
+
+.navdrawer-container h4,
+.navdrawer-container ul li a {
+  height: 60px;
+  padding: 17px 20px;
+  line-height: 1.4;
+}
+
+.navdrawer-container ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.navdrawer-container ul li a {
+  display: block;
+  text-decoration: none;
+  color: white;
+  -webkit-transition: background-color 0.2s ease-out;
+          transition: background-color 0.2s ease-out;
+  white-space: nowrap;
+}
+
+.navdrawer-container ul li {
+  border-bottom-style: solid;
+  border-width: 1px;
+  border-color: white;
+  padding: 0;
+}
+
+.navdrawer-container ul li::before {
+  content: none;
+}
+
+.navdrawer-container ul li a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.navdrawer-container ul li a:focus {
+  background-color: rgba(255, 255, 255, 0.3);
+  outline: 0;
+}
+
+.navdrawer-container ul li a:active {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+main {
+  margin: 0 auto;
+  /* Height of the header */
+  padding: 60px 0px 16px 0px;
+  min-height: 100%;
+}
+
+.playlist {
+  padding: 4px 8px;
+  background-color: #F9F9F7;
+  border-width: 1px 0px;
+  border-style: solid;
+  border-color: #FCFCFB #FFF #EBEBEB;
+  letter-spacing: 0.019em;
+  font-size: 12px;
+  line-height: 16px;
+  .title {
+    font-weight: 700;
+  }
+  .info {
+    color: #838383;
+  }
+  &:hover {
+    cursor: pointer;
+    background-color: #FFF;
+    transition-duration: 0.1s;
+    transition-property: background-color;
+  }
 }
 
 .loading {
-  background-image: url("../../images/loading.gif");
-  width: 120px;
-  height: 128px;
+  width: 16px;
+  height: 16px;
+  background-image: url("/images/loading.gif");
+  display: inline-block;
+}
+
+#embed {
+  text-align: center;
 }
 
 #login {
-  background-image: url("../../images/log_in-desktop.svg");
+  background-image: url("/images/log_in-desktop.svg");
   width: 270px;
   height: 50px;
 }
 
-#content {
-  height: 100%;
-  padding: 0 8vw;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#sidebar {
-  flex-basis: 1;
-  width: 33%;
-  height: 100%;
-}
-
-#user {
-  .header {
-    height: 100px;
-    background-color: $spotify-green;
+/** Larger Screens - desktops and tablets **/
+/*@media all and (min-width: 990px) {
+  .app-bar {
+    position: relative;
   }
-  .info {
-    img {
-      display: block;
-      margin: -35px 0 0 10px;
-      border: 2px solid #FFF;
-      float: left;
-    }
-    .name {
-      float: left;
-      padding-left: 8px;
-    }
-    .logout {
-      float: right;
-    }
-  }
-} 
 
-#playlists {
-  overflow-y: scroll;
-  height: 66%;
-  border: 1px solid #D1D1D1;
-  ul {
-    list-style: none;
-    height: 100%;
-    padding: 0;
+  .app-bar.open,
+  .app-bar.open ~ main {
+    -webkit-transform: translate(0px, 0);
+            transform: translate(0px, 0);
+  }
+
+  .app-bar-container {
+    display: block;
+    height: 130px;
+    max-width: 864px;
+    padding: 0 16px;
+    box-sizing: border-box;
+    background-color: #4285f4;
+  }
+
+  .app-bar .logo {
+    float: left;
     margin: 0;
-    li {
-      .playlist {
-        padding: 4px 8px;
-        background-color: #F9F9F7;
-        border-width: 1px 0;
-        border-style: solid;
-        border-color: #FCFCFB #FFF #EBEBEB #FFF;
-        font-size: 11px;
-        letter-spacing: 0.019em;
-        .title {
-          font-weight: 700;
-        }
-        .info {
-          color: #838383;
-        }
-        &:hover {
-          cursor: pointer;
-          background-color: #FFF;
-          transition-duration: 0.1s;
-          transition-property: background-color;
-        }
-      }
-    }
+    padding: 0;
+    line-height: 130px;
+    font-size: 46px;
   }
-}
 
-#embed {
-  flex-basis: 2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  width: 66%;
-  height: 100%;
-}
+  .app-bar-actions {
+    float: right;
+  }
+
+  .app-bar::after {
+    content: ' ';
+    display: block;
+    height: 0;
+    overflow: hidden;
+    clear: both;
+  }
+
+  button.menu {
+    display: none;
+  }
+
+  .navdrawer-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin-top: 0;
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+    -webkit-transition: none;
+            transition: none;
+    overflow-y: auto;
+  }
+
+  .navdrawer-container h4 {
+    display: none;
+  }
+
+  .navdrawer-container ul {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    max-width: 864px;
+    margin: 0 auto;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+  }
+
+  .navdrawer-container ul li {
+    border: none;
+  }
+
+  main {
+    max-width: 864px;
+    padding-top: 0;
+    min-height: initial;
+  }
+
+  body {
+    overflow-y: scroll;
+  }
+}*/

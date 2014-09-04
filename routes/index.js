@@ -68,7 +68,9 @@ router.get('/playlist', function(req, res) {
     song_selection: 'song_discovery-top',
     bucket : ['id:spotify', 'tracks', 'song_discovery']
   }, function(data3) {
-    var tracks = data3.response.songs.map(function(song) { return song.tracks[0] ? song.tracks[0].foreign_id.substr(song.tracks[0].foreign_id.lastIndexOf(':') + 1) : '' });
+    var tracks = data3.response.songs ?
+      data3.response.songs.map(function(song) { return song.tracks[0] ? song.tracks[0].foreign_id.substr(song.tracks[0].foreign_id.lastIndexOf(':') + 1) : '' }) :
+      '';
     res.json({tracks: tracks});
     // req.swa.createPlaylist(req.query.user_id, "Tracks you may Like").then(function(p1) {
     //   req.swa.addTracksToPlaylist(req.query.user_id, p1.id, tracks).then(function(data4) {
@@ -76,7 +78,7 @@ router.get('/playlist', function(req, res) {
     //     console.log(p1.uri);
     //     res.redirect('/?' + querystring.stringify({playlist_uri: p1.uri}));
     //   });
-    // });    
+    // });
   });
 });
 
@@ -99,13 +101,13 @@ function retrieveTracks(swa, user_id, playlist_id, options, next) {
 router.get('/generate', function(req, res) {
   echonest.request('tasteprofile/create', 'post', {
       name: generateRandomString(32),
-      type: 'song' 
+      type: 'song'
     }, function(data) {
       var catalog_id = data.response.id;
       var retrieveUntilFinished = function(offset) {
-        retrieveTracks(req.swa, req.query.user_id, req.query.playlist_id, {limit: 100, offset: offset}, 
+        retrieveTracks(req.swa, req.query.user_id, req.query.playlist_id, {limit: 100, offset: offset},
           function(next_url, tracks) {
-            addTracksToProfile(catalog_id, tracks, 
+            addTracksToProfile(catalog_id, tracks,
               function(ticket) {
                 if (next_url) {
                   retrieveUntilFinished(offset + 100);

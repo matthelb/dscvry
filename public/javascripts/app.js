@@ -1,8 +1,8 @@
 var app = angular.module('dscvry', ['ngCookies', 'ngRoute']);
 
-var loading_phrases = ['Reticulating splines', 'Crunching numbers', 'Consulting monkeys', 'Generating Gene Pools', 'Crossing t\'s', 'Checkering flags', 'Unreticulating splines', 'Re-reticulating splines'];
+var loading_phrases = ['Reticulating splines', 'Crunching numbers', 'Consulting monkeys', 'Generating gene pools', 'Crossing t\'s', 'Checkering flags', 'Unreticulating splines', 'Consulting oracle'];
 
-app.controller('DscvryController', function($scope, $cookies, $cookieStore, $route, $location, $http, $sce) {  
+app.controller('DscvryController', function($scope, $cookies, $cookieStore, $route, $location, $http, $sce) {
   $scope.reset = function() {
     $scope.spotify_embed_url = '';
     $scope.access_token = '';
@@ -37,7 +37,7 @@ app.controller('DscvryController', function($scope, $cookies, $cookieStore, $rou
 
   $scope.set_embed_url = function(trackset) {
     $scope.spotify_embed_url = $sce.trustAsResourceUrl('https://embed.spotify.com/?theme=white&uri=spotify:trackset:' + trackset);
-    var elem = document.getElementById('embed');
+    var elem = document.getElementById('content');
     var width = Math.min(640, elem ? angular.element(elem)[0].offsetWidth : window.innerWidth * 4 / 9);
     var height = Math.min(720, elem ? angular.element(elem)[0].offsetHeight : window.innerHeight)
     $scope.embed_height = height;

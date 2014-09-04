@@ -1,28 +1,91 @@
-extends layout
+html.
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>dscvry</title>
 
-block content
-  div#content(ng-controller="DscvryController")
-    div#sidebar(ng-if="access_token != ''")
-      div#user
-        div.header
-        div.info
-          img(height="80", ng-title="{{ user.display_name }}" ng-src="{{ user.images[0].url }}")
-          div.name
-            p {{ user.display_name }}
-          div.logout
-            a(href="/logout")
-          div.clear
-      div#playlists
-        ul
-          li(ng-repeat="pl in playlists" ng-click="select_playlist(pl)")
-            div(class="playlist")
-              span(class="title") {{ pl.name }}
-              br
-              span(class="info") {{ pl.tracks.total }} tracks
-    div#embed(ng-if="access_token != ''")
-      iframe(ng-if="spotify_embed_url != ''" ng-src="{{ spotify_embed_url }}", width="{{ embed_width }}", height="{{ embed_height }}", frameborder="0", allowtransparency="true")
-      p(ng-if="playlist == '' && spotify_embed_url == ''") No playlist currently selected.
-      div(ng-if="playlist != '' && spotify_embed_url == ''")
-        div.loading
-        p {{ loading_phrase }}
-    a#login(href="/login", ng-if="access_token == ''")
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="dscvry">
+    <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+    <meta name="msapplication-TileColor" content="#3372DF">
+
+    <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+    <!--
+    <link rel="canonical" href="http://www.example.com/">
+    -->
+
+    <!-- Page styles -->
+    <link rel="stylesheet" href="stylesheets/style.css">
+  </head>
+  <body class="open" ng-app="dscvry" ng-controller="DscvryController">
+    <header class="app-bar promote-layer open">
+      <div class="app-bar-container">
+        <h1 class="logo">dscvry</h1>
+        <section class="app-bar-actions">
+        <!-- Put App Bar Buttons Here -->
+        <!-- e.g <button><i class="icon icon-star"></i></button> -->
+        </section>
+      </div>
+    </header>
+
+    <nav class="navdrawer-container promote-layer open">
+      <div ng-if="access_token != ''">
+        <div class="profile-img">
+          <img ng-title="{{ user.display_name }}" ng-src="{{ user.images[0].url }}" height="60"/>
+        </div>
+        <div class="name">
+          <h4>{{ user.display_name }}</h4>
+        </div>
+        <div style="clear: both"></div>
+        <ul>
+          <li ng-repeat="pl in playlists" ng-click="select_playlist(pl)">
+            <div class="playlist">
+              <span class="title">{{ pl.name }}</span><br/>
+              <span class="info">{{ pl.tracks.total }} tracks</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main id="content">
+      <div id="embed" ng-if="access_token != ''">
+        <iframe ng-if="spotify_embed_url != ''" ng-src="{{ spotify_embed_url }}", width="{{ embed_width }}", height="{{ embed_height }}", frameborder="0", allowtransparency="true">
+        </iframe>
+        <p ng-if="playlist == '' && spotify_embed_url == ''">
+          No playlist currently selected.
+        </p>
+        <div class="playlist-loading" ng-if="playlist != '' && spotify_embed_url == ''">
+          <div class="loading"></div>
+          <p>{{ loading_phrase }}</p>
+        </div>
+      </div>
+      <a id="login" href="/login" ng-if="access_token == ''"></a>
+    </main>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.15/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.15/angular-cookies.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.15/angular-route.min.js"></script>
+    <script src="/javascripts/app.js"></script>
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-XXXXX-X', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <!-- Built with love using Web Starter Kit -->
+  </body>
