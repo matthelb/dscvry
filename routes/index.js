@@ -2,7 +2,7 @@ var express = require('express');
 
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
-var EchonestApi = require('../echonest-api');
+var EchonestApi = require('echonest-api');
 var config = require('../config.json');
 var router = express.Router();
 
