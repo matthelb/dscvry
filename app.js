@@ -1,4 +1,4 @@
-var config = require('./config.json');
+var config = require('./config');
 
 var express = require('express');
 var sass = require('node-sass');
